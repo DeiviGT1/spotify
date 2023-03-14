@@ -11,4 +11,4 @@ application.register_blueprint(mod)
 
 if __name__ == '__main__':
     # Se inicia el servidor web de Flask
-    application.run(debug = True, port=4000, host="localhost")
+    application.run()

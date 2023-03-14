@@ -24,7 +24,7 @@ def callback():
     #Gathering of profile data
     profile_data = Profile_Data(authorization_header)
     user_id = profile_data["id"]
-    Name = profile_data["display_name"]
+    user_name = profile_data["display_name"]
     external_urls = profile_data["external_urls"]
     uri = profile_data["uri"]
     href = profile_data["href"]
@@ -60,6 +60,7 @@ def callback():
                     "playlist_name":playlist_name,
                     "added_at":song["added_at"],
                     "user_id":user_id,
+                    "user_name":user_name,
                     "duration_ms":song["track"]["duration_ms"],
                     "popularity":song["track"]["popularity"],
                     "explicit":song["track"]["explicit"],

@@ -1,7 +1,6 @@
 import json
 import requests
 import base64
-import urllib
 import urllib.parse
 from flask import request
 
@@ -17,9 +16,11 @@ API_VERSION = "v1"
 SPOTIFY_API_URL = f'{SPOTIFY_API_BASE_URL}/{API_VERSION}'
 
 #Server-side Parameters
-CLIENT_SIDE_URL = "http://localhost"
-PORT = 4000
-REDIRECT_URI = f"{CLIENT_SIDE_URL}:{PORT}/callback"
+def get_redirect_uri():
+    URL_URI = request.url_root
+    REDIRECT = f"{URL_URI}callback"
+    return REDIRECT
+
 SCOPE = "user-library-read"
 STATE = ""
 SHOW_DIALOG_bool = True
@@ -27,6 +28,7 @@ SHOW_DIALOG_str = str(SHOW_DIALOG_bool).lower()
 
 #Authorization of application with spotify
 def app_Authorization():
+    REDIRECT_URI = get_redirect_uri()
     auth_query_parameters = {
         "response_type": "code",
         "redirect_uri": REDIRECT_URI,
@@ -41,6 +43,7 @@ def app_Authorization():
 
 #User allows us to acces there spotify
 def user_Authorization():
+    REDIRECT_URI = get_redirect_uri()
     auth_token = request.args['code']
     code_payload = {
         "grant_type": "authorization_code",
