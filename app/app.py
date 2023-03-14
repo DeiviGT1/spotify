@@ -2,7 +2,7 @@ from flask import Flask, redirect, render_template
 from data import delete_all_documents, analyze_average_popularity_per_album, Mongo_Song_Data
 from spotify import app_Authorization, user_Authorization, Profile_Data, Playlist_Data, Song_Data
 
-app = Flask(__name__, static_url_path='/static', template_folder='static/assets')
+app = Flask(__name__, template_folder='templates', static_url_path="/static")
 
 @app.route("/")
 def index():
