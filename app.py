@@ -1,10 +1,8 @@
-from flask import Flask, request, redirect, g, render_template
-import json
-from pymongo import MongoClient
-from data import read_mongo, delete_all_documents, analyze_average_popularity_per_album, Mongo_Song_Data
-from spotify import app_Authorization, user_Authorization, Album_Data, Profile_Data, Playlist_Data, Song_Data
+from flask import Flask, redirect, render_template
+from data import delete_all_documents, analyze_average_popularity_per_album, Mongo_Song_Data
+from spotify import app_Authorization, user_Authorization, Profile_Data, Playlist_Data, Song_Data
 
-app = Flask(__name__, static_url_path='/static', template_folder='templates')
+app = Flask(__name__, static_url_path='/static', template_folder='static/assets')
 
 @app.route("/")
 def index():
