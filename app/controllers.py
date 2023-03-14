@@ -1,21 +1,23 @@
-from flask import Flask, redirect, render_template
+from flask import Blueprint, render_template, redirect
 from data import delete_all_documents, analyze_average_popularity_per_album, Mongo_Song_Data
 from spotify import app_Authorization, user_Authorization, Profile_Data, Playlist_Data, Song_Data
 
-app = Flask(__name__, template_folder='templates', static_url_path="/static")
+# Se crea un objeto Blueprint para definir las rutas asociadas a este módulo.
+mod = Blueprint('controllers', __name__, url_prefix='')
 
-@app.route("/")
+# Se define una ruta para la página de inicio de la aplicación.
+@mod.route("/")
 def index():
     # Authorization
     return render_template("index.html")
 
-@app.route("/login")
+@mod.route("/login")
 def login():
     # Authorization
     auth_url = app_Authorization()
     return redirect(auth_url)
 
-@app.route("/callback")
+@mod.route("/callback")
 def callback():
     authorization_header = user_Authorization()
 
@@ -69,6 +71,3 @@ def callback():
     Mongo_Song_Data(songs)
     avg_per_playlist = analyze_average_popularity_per_album(user_id)
     return render_template("playlist.html", avg_per_playlist=avg_per_playlist)
-
-if __name__ == "__main__":
-    app.run(debug = True, port=4000, host="localhost")

@@ -1,14 +1,7 @@
-#**********************************************************************************
-#Spotify_Handle V0.01
-#By:Ben Bellerose
-#Description: This program handles all spotify interaction for the application.
-#Reference: https://github.com/drshrey/spotify-flask-auth-example
-#**********************************************************************************
 import json
 import requests
 import base64
 import urllib
-from pymongo import MongoClient
 import urllib.parse
 from flask import request
 

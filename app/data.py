@@ -1,7 +1,5 @@
 from pymongo import MongoClient
 from bson import json_util
-import pandas as pd
-from statistics import mean
 from collections import defaultdict
 import json
 
