@@ -4,7 +4,7 @@ from pymongo import MongoClient
 from data import read_mongo, delete_all_documents, analyze_average_popularity_per_album, Mongo_Song_Data
 from spotify import app_Authorization, user_Authorization, Album_Data, Profile_Data, Playlist_Data, Song_Data
 
-app = Flask(__name__, static_url_path='/static', template_folder='public')
+app = Flask(__name__, static_url_path='/static', template_folder='templates')
 
 @app.route("/")
 def index():
