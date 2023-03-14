@@ -11,8 +11,9 @@
 <body>
   <h1>Playlists</h1>
   <div id="playlist"></div>
+  <!-- <script src="../static/js/index.js"></script> -->
   <script>
-var json_str = '{{ avg_per_playlist | tojson }}';
+    var json_str = '{{ avg_per_playlist | tojson }}';
 var data = JSON.parse(json_str);
 var recetlyPllayed = document.getElementById("playlist");
 var list = document.createElement("ul");
@@ -48,5 +49,5 @@ for (var i = 0; i < data.length; i++) {
     progressNumber[i].style.width = progressWidth;
   }
   </script>
-</body>
+</body> 
 </html>
