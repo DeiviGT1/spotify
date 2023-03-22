@@ -4,27 +4,22 @@
     <title>Playlists average</title>
     <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/index.css')}}">
-    <style type="text/css">
-      #login, #loggedin {
-        display: none;
-      }
-      .text-overflow {
-        overflow: hidden;
-        text-overflow: ellipsis;
-        white-space: nowrap;
-        width: 500px;
-      }
-    </style>
   </head>
 
   <body>
     <div class="container">
-      <div id="login">
-        <h1>¡Tu música es única y especial! Descubre qué tan popular es tu playlist con nuestro promedio de popularidad. ¡Inicia sesión en Spotify ahora!</h1>
-        <a href="/login" class="btn btn-primary">Log in with Spotify</a>
+      <h1>
+        ¡Tu música es única y especial!
+      </h1>
+      <p>
+        Descubre qué tan popular es tu playlist con nuestro promedio de popularidad. ¡Inicia sesión en Spotify ahora!
+      </p>
+      <a href="/login">
+        <button>
+          Ingresa con Spotify
+        </button>
+      </a>
       </div>
-      
-    </div>
 
     <script id="user-profile-template" type="text/x-handlebars-template"></script>
     <script id="oauth-template" type="text/x-handlebars-template"></script>
