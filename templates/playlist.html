@@ -21,7 +21,7 @@ var list = document.createElement("ul");
 for (var i = 0; i < data.length; i++) {
     var playlist_name = data[i].playlist_name;
     var average_popularity = data[i].average_popularity;
-    var textNode = document.createTextNode(playlist_name + ': ' + average_popularity);
+    var textNode = document.createTextNode("El puntaje de tu playlist '"playlist_name + "' es de: " + "<b>" + average_popularity + "</b>");
     var listItem = document.createElement("li");
     var divProgressBar = document.createElement("div");
     divProgressBar.setAttribute("class", "progress-bar");
