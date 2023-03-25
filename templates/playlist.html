@@ -10,44 +10,76 @@
 </head>
 <body>
   <h1>Playlists</h1>
-  <div id="playlist"></div>
+  <div id="playlist">
   <!-- <script src="../static/js/index.js"></script> -->
   <script>
     var json_str = '{{ avg_per_playlist | tojson }}';
-var data = JSON.parse(json_str);
-var recetlyPllayed = document.getElementById("playlist");
-var list = document.createElement("ul");
+    var data = JSON.parse(json_str);
+    var recetlyPllayed = document.getElementById("playlist");
+    var list = document.createElement("ul");
 
-for (var i = 0; i < data.length; i++) {
-    var playlist_name = data[i].playlist_name;
-    var average_popularity = data[i].average_popularity;
-    var textNode = document.createTextNode("El puntaje de tu playlist '"playlist_name + "' es de: " + "<b>" + average_popularity + "</b>");
-    var listItem = document.createElement("li");
-    var divProgressBar = document.createElement("div");
-    divProgressBar.setAttribute("class", "progress-bar");
-    divProgressBar.setAttribute("data-progress", "100%");
-    var pProgressBar = document.createElement("p");
-    pProgressBar.setAttribute("class", "progress");
-    pProgressBar.setAttribute("data-progress", average_popularity);
-    pProgressBar.innerHTML = "|";
-
-    listItem.appendChild(textNode);
-    list.appendChild(listItem);
-    divProgressBar.appendChild(pProgressBar);
-    listItem.appendChild(divProgressBar); 
-  }
-
-  recetlyPllayed.appendChild(list);
-  const progressNumber = document.querySelectorAll('.progress');
   
-  for (var i = 0; i < progressNumber.length; i++) {
-    var progressNum = progressNumber[i].getAttribute('data-progress');
-    progressNum = parseFloat(progressNum);
-    progressNumber[i].style.left = progressNum + "%";
-    var progressWidth = (100 - progressNum) + "%";
-    console.log(progressWidth)
-    progressNumber[i].style.width = progressWidth;
-  }
+
+    for (var i = 0; i < data.length; i++) {
+      var playlist_name = data[i].playlist_name;
+      var average_popularity = data[i].average_popularity;
+
+      if (average_popularity > 80){
+        var Comentario = document.createTextNode('Esta playlist es increíble. ¡Tienes muy buen gusto musical! Cada canción es una joya.')
+        var color = "#00FF00";
+      } else if (average_popularity > 60){
+        var Comentario = document.createTextNode('Esta playlist es muy buena. Tiene una variedad de estilos y ritmos que te hacen disfrutar de la música.')
+        var color = "#C9FF00"
+      } else if (average_popularity > 40){
+        var Comentario = document.createTextNode('Esta playlist es decente. Tiene un equilibrio entre canciones populares y otras más desconocidas.')
+        var color = "#FFD700"
+      } else if (average_popularity > 20){
+        var Comentario = document.createTextNode('Esta playlist no es muy atractiva. Tiene algunas canciones buenas, pero otras que no pegan nada.')
+        var color = "#FF8C00"
+      } else {
+        var Comentario = document.createTextNode('Esta playlist necesita una renovación urgente. Tal vez deberías explorar otros géneros musicales.')
+        var color = "#FF0000"
+      }
+
+      var pTextNode = document.createElement("p");
+      var textNode = document.createTextNode("El puntaje de tu playlist '" + playlist_name + "' es de: " + average_popularity);
+      var listItem = document.createElement("li");
+      var divProgressBar = document.createElement("div");
+      divProgressBar.setAttribute("class", "progress-bar");
+      divProgressBar.setAttribute("data-progress", "100%");
+      var pProgressBar = document.createElement("p");
+      var pComentario = document.createElement("p");
+      pComentario.appendChild(Comentario);
+      pComentario.setAttribute("class", "comentario");
+      pComentario.style.color = color;
+      pComentario.style.fontSize = "18px";
+      pTextNode.style.fontSize = "26px";
+      pProgressBar.setAttribute("class", "progress");
+      pProgressBar.setAttribute("data-progress", average_popularity);
+      pProgressBar.innerHTML = "|";
+
+      pTextNode.appendChild(textNode);
+      listItem.appendChild(pTextNode);
+      listItem.appendChild(divProgressBar); 
+      listItem.appendChild(pComentario);
+      list.appendChild(listItem);
+      divProgressBar.appendChild(pProgressBar);
+    }
+
+    recetlyPllayed.appendChild(list);
+    const progressNumber = document.querySelectorAll('.progress');
+
+    for (var i = 0; i < progressNumber.length; i++) {
+      var progressNum = progressNumber[i].getAttribute('data-progress');
+      progressNum = parseFloat(progressNum);
+      progressNumber[i].style.left = progressNum + "%";
+      var progressWidth = (100 - progressNum) + "%";
+      console.log(progressWidth)
+      progressNumber[i].style.width = progressWidth;
+    }
+    
   </script>
+  <p style="color: #5E6366;">* Los puntajes se calculan con base al puntaje que Spotify le asigna a cada una de las canciones teniendo en cuenta la cantidad de oyentes que estas tienen</p>
+</div>
 </body> 
 </html>

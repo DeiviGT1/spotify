@@ -2,21 +2,25 @@ from pymongo import MongoClient
 from bson import json_util
 from collections import defaultdict
 import json
+import datetime
 
 usuario = "David"
 contraseña = "David"
 
 # Define la dirección IP del servidor de la base de datos y el nombre de la base de datos
-direccion_ip_servidor = "songs.lohevn5.mongodb.net"
+#AWS
+# direccion_ip_servidor = "songs.lohevn5.mongodb.net"
+#Google
+direccion_ip_servidor = "songs.yhogjh0.mongodb.net"
 nombre_base_de_datos = "test"
 
 # Crea una conexión con la base de datos de MongoDB
-uri = f"mongodb+srv://{usuario}:{contraseña}@{direccion_ip_servidor}/{nombre_base_de_datos}" #?retryWrites=true&w=majority
+uri = f"mongodb+srv://{usuario}:{contraseña}@{direccion_ip_servidor}/{nombre_base_de_datos}" 
 client = MongoClient(uri)
 
 # Selecciona la base de datos que deseas utilizar
 db = client[nombre_base_de_datos]
-collection = db['songs']
+collection = db['count']
 
 def read_mongo(query={}, projection=None):
     """ Read from Mongo and return data in JSON format """
@@ -30,6 +34,9 @@ def read_mongo(query={}, projection=None):
 def Mongo_Song_Data(songs_data):
     for item in songs_data:
         collection.insert_one({'info': item})
+
+def Mongo_song_insert_one(item):
+    collection.insert_one({'info': item})
 
 def delete_all_documents(query={}):
     """ Delete all documents from a MongoDB collection """
@@ -48,3 +55,11 @@ def analyze_average_popularity_per_album(user_id):
 
   final_result = [{'playlist_name': k, 'average_popularity': "{:.2f}".format(sum(v)/len(v))} for k,v in result.items()]
   return final_result
+
+def count_songs(x):
+    time = datetime.datetime.now().strftime("%H:%M:%S")
+    time = str(time)
+    collection.insert_one({'info': time})
+
+def delete_count():
+    collection.delete_many({})

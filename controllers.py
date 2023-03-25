@@ -1,6 +1,9 @@
 from flask import Blueprint, render_template, redirect
-from data import delete_all_documents, analyze_average_popularity_per_album, Mongo_Song_Data
+import pandas as pd
+from data import delete_all_documents, analyze_average_popularity_per_album, Mongo_Song_Data, Mongo_song_insert_one, delete_count
 from spotify import app_Authorization, user_Authorization, Profile_Data, Playlist_Data, Song_Data
+import datetime
+from pymongo import MongoClient
 
 # Se crea un objeto Blueprint para definir las rutas asociadas a este módulo.
 mod = Blueprint('controllers', __name__, url_prefix='')
@@ -25,35 +28,20 @@ def callback():
     profile_data = Profile_Data(authorization_header)
     user_id = profile_data["id"]
     user_name = profile_data["display_name"]
-    external_urls = profile_data["external_urls"]
-    uri = profile_data["uri"]
-    href = profile_data["href"]
-    followers = profile_data["followers"]["total"]
-    images = profile_data["images"]
 
+    #Borramos los datods de la base de datos que se encuentren con el mismo user_id
+    # # # # # # delete_all_documents({'info.user_id': user_id})
+    delete_count()
     #Gathering of playlist data
     playlist_data = Playlist_Data(authorization_header,profile_data)
-    
     x = 0
-    playlist_url = []
-    playlist_titles = []
-    playlist_track_count = []
-    playlist_track_url = []
-    songs = []
-    while x < len(playlist_data["items"]):
-        playlist_track_count.insert(len(playlist_track_count),playlist_data["items"][x]["tracks"]['total'])
-        playlist_url.insert(len(playlist_url),playlist_data["items"][x]["tracks"]['href'])
-        playlist_titles.insert(len(playlist_titles),playlist_data["items"][x]["name"])
-        playlist_track_url.insert(len(playlist_track_url),playlist_data["items"][x]["tracks"]['href'])
-        x = x + 1
+    dict_tiempos_canciones_cu = {}
     for items in playlist_data["items"]:
         playlist_name = items["name"]
         url = items["tracks"]["href"]
         song_data = Song_Data(authorization_header,url)
         for song in song_data["items"]:
-            songs.insert(
-                len(songs),
-                {
+            song_to_insert = {
                     "id":song["track"]["id"],
                     "name":song["track"]["name"],
                     "artist":song["track"]["artists"][0]["name"],
@@ -65,10 +53,12 @@ def callback():
                     "popularity":song["track"]["popularity"],
                     "explicit":song["track"]["explicit"],
                     "amount_available_markets":len(song["track"]["available_markets"]),
+                    "time_added":datetime.datetime.now().strftime("%d/%m/%Y %H:%M:%S.%f"),
+                    "number_song_by_user":x
                 }
-            )
-
-    delete_all_documents({'info.user_id': user_id})
-    Mongo_Song_Data(songs)
+            x = x + 1
+            Mongo_song_insert_one(song_to_insert)
     avg_per_playlist = analyze_average_popularity_per_album(user_id)
     return render_template("playlist.html", avg_per_playlist=avg_per_playlist)
+
+#Quiero la función de datetime que trae la fecha y hora actual

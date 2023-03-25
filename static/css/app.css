@@ -23,6 +23,7 @@ h1 {
   background: linear-gradient(to right, red, yellow, green);
   border-radius: 10px;
   height: 2rem;
+  margin-bottom: 1rem;
 }
 
 @keyframes slide-in {
