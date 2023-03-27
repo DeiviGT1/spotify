@@ -24,13 +24,13 @@
       var playlist_name = data[i].playlist_name;
       var average_popularity = data[i].average_popularity;
 
-      if (average_popularity > 80){
+      if (average_popularity > 70){
         var Comentario = document.createTextNode('Esta playlist es increíble. ¡Tienes muy buen gusto musical! Cada canción es una joya.')
         var color = "#00FF00";
-      } else if (average_popularity > 60){
+      } else if (average_popularity > 55){
         var Comentario = document.createTextNode('Esta playlist es muy buena. Tiene una variedad de estilos y ritmos que te hacen disfrutar de la música.')
         var color = "#C9FF00"
-      } else if (average_popularity > 40){
+      } else if (average_popularity > 45){
         var Comentario = document.createTextNode('Esta playlist es decente. Tiene un equilibrio entre canciones populares y otras más desconocidas.')
         var color = "#FFD700"
       } else if (average_popularity > 20){
