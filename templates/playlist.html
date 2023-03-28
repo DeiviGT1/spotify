@@ -22,9 +22,9 @@
       #cerrar-sesion{
         text-decoration: none;
         color: #dfdfdf;
-        font-size: 16px;
+        font-size: 18px;
         border: 1px solid #343a40;
-        padding: 6px 12px;
+        padding: 8px 16px;
         border: #dfdfdf solid 1px;
         border-radius: 4px;
         transition: background-color 0.3s ease;
@@ -32,8 +32,8 @@
       }
 
       #cerrar-sesion:hover {
-        background-color: #dfdfdf;
-        color: #343a40;
+        background-color: #1DB954;
+        color: #dfdfdf;
       }
       
   </style>
@@ -51,8 +51,6 @@
     var data = JSON.parse(json_str);
     var recetlyPllayed = document.getElementById("playlist");
     var list = document.createElement("ul");
-
-  
 
     for (var i = 0; i < data.length; i++) {
       var playlist_name = data[i].playlist_name;
@@ -80,10 +78,22 @@
       var textNode = document.createTextNode("El puntaje de tu playlist '" + playlist_name + "' es de: " + average_popularity);
       var listItem = document.createElement("li");
       var divProgressBar = document.createElement("div");
+      var spotifyLogo = document.createElement("img");
+      spotifyLogo.setAttribute("src", "https://upload.wikimedia.org/wikipedia/commons/1/19/Spotify_logo_without_text.svg");
+      spotifyLogo.setAttribute("width", "30");
+      spotifyLogo.setAttribute("height", "30");
+      spotifyLogo.style.marginRight = "1rem";
+      spotifyLogo.style.top = "7px";
+      spotifyLogo.style.position = "relative";
+
       divProgressBar.setAttribute("class", "progress-bar");
       divProgressBar.setAttribute("data-progress", "100%");
       var pProgressBar = document.createElement("p");
+      var divComentario = document.createElement("div");
       var pComentario = document.createElement("a");
+      divComentario.setAttribute("class", "div-comentario");
+      divComentario.appendChild(spotifyLogo);
+      divComentario.appendChild(pComentario);
       pComentario.appendChild(Comentario);
       pComentario.setAttribute("class", "comentario");
       pComentario.setAttribute("href", playlist_url);
@@ -97,7 +107,7 @@
       pTextNode.appendChild(textNode);
       listItem.appendChild(pTextNode);
       listItem.appendChild(divProgressBar); 
-      listItem.appendChild(pComentario);
+      listItem.appendChild(divComentario);
       list.appendChild(listItem);
       divProgressBar.appendChild(pProgressBar);
     }
