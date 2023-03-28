@@ -9,6 +9,30 @@ h1 {
   margin: 2rem;
 }
 
+#header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #1db954;
+  color: #343a40;
+}
+
+#cerrar-sesion{
+  text-decoration: none;
+  color: #343a40;
+  font-size: 16px;
+  border: 1px solid #343a40;
+  padding: 6px 12px;
+  border-radius: 4px;
+  transition: background-color 0.3s ease;
+}
+
+#cerrar-sesion:hover {
+  background-color: #fff;
+  color: #1db954;
+}
+
 #playlist {
   background-color: #343a40;
   color: #dfdfdf;

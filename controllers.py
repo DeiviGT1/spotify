@@ -1,5 +1,5 @@
-from flask import Blueprint, render_template, redirect
-from spotify import app_Authorization, user_Authorization, Profile_Data, Playlist_Data, Song_Data
+from flask import Blueprint, render_template, redirect, session
+from spotify import app_Authorization, user_Authorization, Profile_Data, Playlist_Data, Song_Data, logout
 import pandas as pd
 
 # Se crea un objeto Blueprint para definir las rutas asociadas a este módulo.
@@ -8,27 +8,26 @@ mod = Blueprint('controllers', __name__, url_prefix='')
 # Se define una ruta para la página de inicio de la aplicación.
 @mod.route("/")
 def index():
-    # Authorization
     return render_template("index.html")
 
 @mod.route("/login")
 def login():
     # Authorization
     auth_url = app_Authorization()
+    session["auth_url"] = auth_url
+
     return redirect(auth_url)
 
 @mod.route("/callback")
 def callback():
     authorization_header = user_Authorization()
+    session["authorization_header"] = authorization_header
 
     #Gathering of profile data
     profile_data = Profile_Data(authorization_header)
     user_id = profile_data["id"]
     user_name = profile_data["display_name"]
 
-    #Borramos los datods de la base de datos que se encuentren con el mismo user_id
-    # # # # # # delete_all_documents({'info.user_id': user_id})
-    #Gathering of playlist data
     playlist_data = Playlist_Data(authorization_header,profile_data)
 
     avg_dicts = []
@@ -61,4 +60,9 @@ def callback():
     
     return render_template("playlist.html", avg_per_playlist=final_result)
 
-#Quiero la función de datetime que trae la fecha y hora actual
+@mod.route("/logout")
+def logout():
+    session.pop("access_token", None)
+    session.clear()
+    return redirect("/")
+

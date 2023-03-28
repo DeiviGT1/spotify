@@ -99,5 +99,19 @@ def Album_Data(header,profile,limit,offset):
     artist_data = json.loads(artist_response.text)
     return artist_data
 
+def logout():
+    auth_params = {
+        "client_id": CLIENT_ID,
+        "client_secret": CLIENT_SECRET,
+        "response_type": "code",
+        "redirect_uri": get_redirect_uri(),
+        "scope": SCOPE,
+        "show_dialog": SHOW_DIALOG_str
+    }
+    response = requests.post(SPOTIFY_TOKEN_URL, data=auth_params)
+    token_data = response.json()
 
-        
+    token = token_data["access_token"]
+    headers = {"Authorization": f"Bearer {token}"}
+    revoke_url = "https://accounts.spotify.com/api/token"
+    requests.post(revoke_url, headers=headers, data={"token": token})
