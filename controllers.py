@@ -29,11 +29,11 @@ def callback():
     user_name = profile_data["display_name"]
 
     playlist_data = Playlist_Data(authorization_header,profile_data)
-
     avg_dicts = []
     final_result = []
     for items in playlist_data["items"]:
         playlist_name = items["name"]
+        playlist_url = items["external_urls"]["spotify"]
         url = items["tracks"]["href"]
         song_data = Song_Data(authorization_header,url)
         for song in song_data["items"]:
@@ -43,6 +43,7 @@ def callback():
                     "name":song["track"]["name"],
                     "artist":song["track"]["artists"][0]["name"],
                     "playlist_name":playlist_name,
+                    "playlist_url":playlist_url,
                     "added_at":song["added_at"],
                     "user_id":user_id,
                     "user_name":user_name,
@@ -53,11 +54,11 @@ def callback():
                 })
         
         df = pd.DataFrame(avg_dicts)
-        avg_per_playlist = df.groupby("playlist_name").mean()["popularity"]
+        avg_per_playlist = df.groupby(["playlist_name", "playlist_url"]).mean()["popularity"]
 
-    for column in avg_per_playlist.index:
-        final_result.append({"playlist_name":column, "average_popularity":"{:.2f}".format(avg_per_playlist[column])})
-    
+    for row in avg_per_playlist.iteritems():
+        final_result.append({"playlist_name":row[0][0], "playlist_url":row[0][1], "avg_popularity":"{:.2f}".format(row[1])})
+    # return str(final_result)
     return render_template("playlist.html", avg_per_playlist=final_result)
 
 @mod.route("/logout")
