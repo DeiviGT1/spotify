@@ -40,7 +40,7 @@
 
 	+ In seconds, you'll receive a calculation of the playlist's average popularity, providing a fresh perspective on your musical tastes.
 
-###Requirements and Contributions
+### Requirements and Contributions
 + Requirements:
 
 	+ Ensure you have an active Spotify account and internet connection to make the most of the app's features.
