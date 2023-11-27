@@ -6,7 +6,7 @@ from flask import request
 
 # Client Keys
 CLIENT_ID = "4e90e934295b4cb984d8ac90deab6d69"
-CLIENT_SECRET = "43f77b42f24f4ac4bb75552326377c5d"
+CLIENT_SECRET = os.getenv("SPOTIFY_API_KEY")
 
 #Spotify URLS
 SPOTIFY_AUTH_URL = "https://accounts.spotify.com/authorize"
